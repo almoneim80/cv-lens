@@ -1,0 +1,14 @@
+{
+  "files.associations": {
+    "*.css": "postcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["@apply\\s+(.*)", "(?:'|\"|\\s)([^\"';\\s]+)"]
+  ],
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false
+}
