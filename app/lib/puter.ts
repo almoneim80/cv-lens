@@ -292,14 +292,13 @@ export const usePuterStore = create<PuterStore>((set, get) => {
         return puter.fs.read(path);
     };
 
-    const upload = async (files: File[] | Blob[]) => {
-        const puter = getPuter();
-        if (!puter) {
-            setError("Puter.js not available");
-            return;
-        }
-        return puter.fs.upload(files);
-    };
+const upload = async (files: File[] | Blob[]) => {
+    const puter = getPuter();
+    if (!puter) return;
+    const resp = await puter.fs.upload(files);
+    // إذا كان المرفوع ملفاً واحداً، نرجعه مباشرة بدلاً من المصفوفة
+    return Array.isArray(resp) ? resp[0] : resp; 
+};
 
     const deleteFile = async (path: string) => {
         const puter = getPuter();
@@ -350,7 +349,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
                     ],
                 },
             ],
-            { model: "claude-3-7-sonnet" }
+            { model: "claude-sonnet-4" }
         ) as Promise<AIResponse | undefined>;
     };
 
@@ -412,7 +411,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
     };
 
     return {
-        isLoading: false,
+        isLoading: true,
         error: null,
         puterReady: false,
         auth: {
