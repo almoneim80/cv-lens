@@ -30,12 +30,10 @@ const Upload = () => {
         if(!imageFile.file) return setStatusText('Error: Failed to convert PDF to image');
 
         setStatusText('Uploading the image...');
-        console.log('Uploading image file:', imageFile.file);
         const uploadedImage = await fs.upload([imageFile.file]);
         if(!uploadedImage) return setStatusText('Error: Failed to upload image');
 
         setStatusText('Preparing data...');
-        console.log('Preparing data...');
         const uuid = generateUUID();
         const data = {
             id: uuid,
@@ -47,31 +45,22 @@ const Upload = () => {
         await kv.set(`resume:${uuid}`, JSON.stringify(data));
 
         setStatusText('Analyzing...');
-        console.log('--- AI Stage Started ---');
-        console.log('Sending path to AI:', uploadedFile.path);
 
         const feedback = await ai.feedback(
             uploadedFile.path,
             prepareInstructions({ jobTitle, jobDescription })
         )
-        if (!feedback){
-            console.error('AI returned null or undefined');
-            return setStatusText('Error: Failed to analyze resume');
-        }
+        if (!feedback) return setStatusText('Error: Failed to analyze resume');
 
-        console.log('Full AI Response Object:', feedback);
         const feedbackText = typeof feedback.message.content === 'string'
             ? feedback.message.content
             : feedback.message.content[0].text;
 
-
-        console.log('Raw Feedback Text:', feedbackText);
-        const text = feedback.message.content;
-        const textStr = typeof text === 'string' ? text : Array.isArray(text) ? text.join(' ') : '';
+        data.feedback = JSON.parse(feedbackText);
         await kv.set(`resume:${uuid}`, JSON.stringify(data));
         setStatusText('Analysis complete, redirecting...');
         console.log(data);
-        //navigate(`/resume/${uuid}`);
+        navigate(`/resume/${uuid}`);
     }
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
