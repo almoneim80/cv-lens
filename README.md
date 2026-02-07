@@ -215,7 +215,9 @@ MIT License
 **Abdulmonim Alward**
 
 GitHub: https://github.com/almoneim80
+
 Project: https://github.com/almoneim80/cv-lens
+
 Website: https://moneim.vercel.app/
 ---
 
