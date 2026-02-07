@@ -6,9 +6,13 @@ The application leverages **React Router SSR**, **Puter.js Backend-as-a-Service*
 
 ## 📸 Screenshots
 
-### Upload Resume
+### Sigin In
 ![Sigin In](docs/screenshots/sigin-in.png)
+
+### Main Page
 ![Main Page](docs/screenshots/main-page.png)
+
+### Upload Resume
 ![Upload Resume](docs/screenshots/upload.png)
 
 ### AI Analysis Results
